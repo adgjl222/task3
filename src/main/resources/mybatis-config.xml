@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--  全局配置，需要再添加-->
+    <mappers>
+              <mapper resource="mapper/BannerManageMapper.xml"/>
+              <mapper resource="mapper/FirstShowreelMapper.xml"/>
+              <mapper resource="mapper/LeavewordsMapper.xml"/>
+              <mapper resource="mapper/ProductionManageMapper.xml"/>
+              <mapper resource="mapper/SecondShowreelMapper.xml"/>
+              <mapper resource="mapper/StudioManageMapper.xml"/>
+    </mappers>
+</configuration>

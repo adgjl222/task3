@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tian.dao.FirstShowreelMapper">
+  <resultMap id="BaseResultMap" type="com.tian.model.FirstShowreel">
+    <constructor>
+      <idArg column="first_showreel_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="first_showreel_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="first_showreel_state" javaType="java.lang.Integer" jdbcType="TINYINT" />
+      <arg column="compile_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="second_showreel_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="updated_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    *
+    from first_showreel
+    where first_showreel_id = #{firstShowreelId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    *
+    from first_showreel
+    where first_showreel_name = #{firstShowreelName,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectByNameAndState" parameterType="com.tian.model.FirstShowreel" resultMap="BaseResultMap">
+    select
+    *
+    from first_showreel
+    <where>
+      <if test="firstShowreelName != null and firstShowreelName != ''">
+        and first_showreel_name LIKE CONCAT(CONCAT('%',#{firstShowreelName},'%'))
+      </if>
+      <if test="firstShowreelState != null and firstShowreelState != ''">
+        and first_showreel_state = #{firstShowreelState,jdbcType=TINYINT}
+      </if>
+
+    </where>
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from first_showreel
+    where first_showreel_id = #{firstShowreelId,jdbcType=INTEGER}
+  </delete>
+
+
+  <insert id="insertSelective" parameterType="com.tian.model.FirstShowreel" useGeneratedKeys="true" keyProperty="firstShowreelId">
+    insert into first_showreel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="firstShowreelId != null">
+        first_showreel_id,
+      </if>
+      <if test="firstShowreelName != null">
+        first_showreel_name,
+      </if>
+      <if test="firstShowreelState != null">
+        first_showreel_state,
+      </if>
+      <if test="compileBy != null">
+        compile_by,
+      </if>
+      <if test="secondShowreelName != null">
+        second_showreel_name,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+      <if test="firstShowreelId != null">
+        #{firstShowreelId,jdbcType=INTEGER},
+      </if>
+      <if test="firstShowreelName != null">
+        #{firstShowreelName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstShowreelState != null">
+        #{firstShowreelState,jdbcType=TINYINT},
+      </if>
+      <if test="compileBy != null">
+        #{compileBy,jdbcType=VARCHAR},
+      </if>
+      <if test="secondShowreelName != null">
+        #{secondShowreelName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.tian.model.FirstShowreel">
+    update first_showreel
+    <set>
+      <if test="firstShowreelName != null">
+      first_showreel_name = #{firstShowreelName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstShowreelState != null">
+      first_showreel_state = #{firstShowreelState,jdbcType=TINYINT},
+      </if>
+      <if test="compileBy != null">
+      compile_by = #{compileBy,jdbcType=VARCHAR},
+      </if>
+      <if test="secondShowreelName != null">
+      second_showreel_name = #{secondShowreelName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+      created_at = #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null">
+      updated_at = #{updatedAt,jdbcType=BIGINT}
+      </if>
+    </set>
+
+    where first_showreel_id = #{firstShowreelId,jdbcType=INTEGER}
+  </update>
+
+
+    <select id="selectCount" resultType="int">
+        select count(*) from first_showreel
+    </select>
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tian.dao.BannerManageMapper">
+  <resultMap id="BaseResultMap" type="com.tian.model.BannerManage">
+    <constructor>
+      <idArg column="banner_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="banner_conver" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="compile_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="banner_state" javaType="java.lang.Integer" jdbcType="TINYINT" />
+      <arg column="created_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="updated_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+
+  <select id="selectByCompileAndState" resultMap="BaseResultMap">
+    select 
+   *
+    from banner_manage
+    <where>
+      <if test="compileBy != null and compileBy != ''">
+        and compileBy LIKE CONCAT(CONCAT('%',#{compile_by},'%'))
+      </if>
+      <if test="bannerState != null and bannerState != ''">
+        and banner_state = #{bannerState,jdbcType=TINYINT}
+      </if>
+
+    </where>
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from banner_manage
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.tian.model.BannerManage"  useGeneratedKeys="true" keyProperty="bannerId">
+    insert into banner_manage ( banner_conver,
+      compile_by, url, banner_state, 
+      created_at, updated_at)
+    values ( #{bannerConver,jdbcType=VARCHAR},
+      #{compileBy,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{bannerState,jdbcType=TINYINT}, 
+      #{createdAt,jdbcType=BIGINT}, #{updatedAt,jdbcType=BIGINT})
+  </insert>
+
+ <!-- <insert id="insertSelective" parameterType="com.tian.model.BannerManage">
+    insert into banner_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="bannerConver != null">
+        banner_conver,
+      </if>
+      <if test="compileBy != null">
+        compile_by,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="bannerState != null">
+        banner_state,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+      <if test="bannerConver != null">
+        #{bannerConver,jdbcType=VARCHAR},
+      </if>
+      <if test="compileBy != null">
+        #{compileBy,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerState != null">
+        #{bannerState,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>-->
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.tian.model.BannerManage">
+    update banner_manage
+    <set>
+      <if test="bannerConver != null">
+        banner_conver = #{bannerConver,jdbcType=VARCHAR},
+      </if>
+      <if test="compileBy != null">
+        compile_by = #{compileBy,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerState != null">
+        banner_state = #{bannerState,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=BIGINT},
+      </if>
+    </set>
+    where
+    banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tian.dao.StudioManageMapper">
+  <resultMap id="BaseResultMap" type="com.tian.model.StudioManage">
+    <constructor>
+      <idArg column="studio_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="studio_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="studio_state" javaType="java.lang.Integer" jdbcType="TINYINT" />
+      <arg column="compile_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="updated_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="studio_pictures" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="studio_body" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+
+  <select id="selectByStudioManageTypeAndStudioManageState" resultMap="BaseResultMap">
+    select 
+    * from studio_manage
+    <where>
+      <if test="studioType != null and studioType != ''">
+        and studio_type LIKE CONCAT(CONCAT('%',#{studioType},'%'))
+      </if>
+      <if test="studioState != null and studioState != ''">
+        and studio_state = #{studioState,jdbcType=TINYINT}
+      </if>
+
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from studio_manage
+    where  studio_id = #{studioId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.tian.model.StudioManage" useGeneratedKeys="true" keyProperty="studioId">
+    insert into studio_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="studioType != null">
+        studio_type,
+      </if>
+      <if test="studioState != null">
+        studio_state,
+      </if>
+      <if test="compileBy != null">
+        compile_by,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="studioPictures != null">
+        studio_pictures,
+      </if>
+      <if test="studioBody != null">
+        studio_body,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studioType != null">
+        #{studioType,jdbcType=VARCHAR},
+      </if>
+      <if test="studioState != null">
+        #{studioState,jdbcType=TINYINT},
+      </if>
+      <if test="compileBy != null">
+        #{compileBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="studioPictures != null">
+        #{studioPictures,jdbcType=VARCHAR},
+      </if>
+      <if test="studioBody != null">
+        #{studioBody,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.tian.model.StudioManage">
+    update studio_manage
+    <set>
+    <if test="studioType != null">
+        studio_type = #{studioType,jdbcType=VARCHAR},
+    </if>
+    <if test="studioState != null">
+      studio_state = #{studioState,jdbcType=TINYINT},
+    </if>
+    <if test="compileBy != null">
+      compile_by = #{compileBy,jdbcType=VARCHAR},
+    </if>
+    <if test="createdAt != null">
+      created_at = #{createdAt,jdbcType=BIGINT},
+    </if>
+    <if test="updatedAt != null">
+      updated_at = #{updatedAt,jdbcType=BIGINT},
+    </if>
+    <if test="studioPictures != null">
+      studio_pictures = #{studioPictures,jdbcType=VARCHAR},
+    </if>
+    <if test="studioBody != null">
+      studio_body = #{studioBody,jdbcType=VARCHAR},
+    </if>
+    </set>
+    where studio_id = #{studioId,jdbcType=INTEGER}
+  </update>
+</mapper>

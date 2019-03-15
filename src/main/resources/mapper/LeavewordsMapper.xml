@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tian.dao.LeavewordsMapper">
+    <resultMap id="BaseResultMap" type="com.tian.model.Leavewords">
+        <constructor>
+            <idArg column="leavewords_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="l_production_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="visitor_nickname" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="leavewords" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="leavewords_state" javaType="java.lang.Integer" jdbcType="TINYINT" />
+            <arg column="reply" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="created_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+            <arg column="updated_at" javaType="java.lang.Long" jdbcType="BIGINT" />
+            <arg column="compile_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="l_pronduction_id" javaType="java.lang.Integer" jdbcType="BIGINT" />
+        </constructor>
+    </resultMap>
+
+
+    <select id="selectBylProductionNameAndleavewordsState" parameterType="com.tian.model.Leavewords" resultMap="BaseResultMap">
+        select *
+        from leavewords_manage
+        <where>
+            <if test="lProductionName != null and lProductionName != ''">
+                and l_production_name LIKE CONCAT(CONCAT('%',#{lProductionName},'%'))
+            </if>
+            <if test="leavewordsState != null and leavewordsState != ''">
+                and leavewords_state = #{leavewordsState,jdbcType=TINYINT}
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="select"  resultMap="BaseResultMap">
+        select *
+        from leavewords_manage
+
+    </select>
+
+
+    <!-- 根据id删除留言 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from leavewords_manage
+        where leavewords_id = #{leavewordsId,jdbcType=BIGINT}
+    </delete>
+
+
+
+    <!-- 根据留言id修改留言状态 -->
+    <update id="updateLeavewordsStateByleavewordsId" parameterType="com.tian.model.Leavewords">
+        update leavewords_manage
+        <set>
+
+            leavewords_state  = #{leavewordsState,jdbcType=VARCHAR},
+            updated_at=#{updatedAt}
+
+        </set>
+        where leavewords_id = #{leavewordsId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据留言id添加留言回复 -->
+    <update id="updateReplyByleavewordsId" parameterType="com.tian.model.Leavewords">
+        update leavewords_manage
+        <set>
+
+            reply = #{reply,jdbcType=VARCHAR},
+
+        </set>
+        where leavewords_id = #{leavewordsId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertLeavewords" parameterType="com.tian.model.Leavewords" useGeneratedKeys="true" keyProperty="leavewordsId">
+        insert into leavewords_manage(l_pronduction_id,leavewords,l_production_name,visitor_nickname,created_at)
+        values (#{lPronductionId,jdbcType=BIGINT}, #{leavewords,jdbcType=VARCHAR},#{lProductionName},#{visitorNickname},#{createdAt,jdbcType=BIGINT})
+    </insert>
+
+
+
+</mapper>
