@@ -60,7 +60,7 @@ public class FirstShowreelSreviceImplTest {
 
     @Test
     public void testDeleteByPrimaryKey(){
-        Integer firstShowreelId = 6;
+        Integer firstShowreelId = 7;
         firstShowreelSrevice.deleteByPrimaryKey(firstShowreelId);
     }
 

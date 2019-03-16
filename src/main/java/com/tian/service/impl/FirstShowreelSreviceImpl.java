@@ -27,13 +27,19 @@ public class FirstShowreelSreviceImpl implements FirstShowreelSrevice {
     @Override
     public Boolean deleteByPrimaryKey(Integer firstShowreelId) {
         Boolean delete = false;
+        int count = 0;
         log.info("firstShowreelId is "+firstShowreelId);
         FirstShowreel firstShowreel = firstShowreelMapper.selectByPrimaryKey(firstShowreelId);
-        int count = 0;
-        if (firstShowreel.getSecondShowreelName() == null && firstShowreel.getFirstShowreelState() == 0){
-           count = firstShowreelMapper.deleteByPrimaryKey(firstShowreelId);
+        if (firstShowreel == null){
+            log.info("该id不存在");
+
         }else {
-            log.info("无法删除");
+
+            if (firstShowreel.getSecondShowreelName() == null && firstShowreel.getFirstShowreelState() == 0){
+                count = firstShowreelMapper.deleteByPrimaryKey(firstShowreelId);
+            }else {
+                log.info("无法删除");
+            }
         }
         if (count != 0){
             delete = true;

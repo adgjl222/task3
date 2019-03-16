@@ -90,4 +90,5 @@ public class BannerManage {
     public String toString() {
         return "BannerManage{" + "bannerId=" + bannerId + ", bannerConver='" + bannerConver + '\'' + ", compileBy='" + compileBy + '\'' + ", url='" + url + '\'' + ", bannerState=" + bannerState + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
     }
+
 }

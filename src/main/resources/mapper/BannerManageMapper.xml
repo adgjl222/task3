@@ -78,7 +78,7 @@
     from banner_manage
     <where>
       <if test="compileBy != null and compileBy != ''">
-        and compileBy LIKE CONCAT(CONCAT('%',#{compile_by},'%'))
+        and compile_by LIKE CONCAT(CONCAT('%',#{compileBy},'%'))
       </if>
       <if test="bannerState != null and bannerState != ''">
         and banner_state = #{bannerState,jdbcType=TINYINT}

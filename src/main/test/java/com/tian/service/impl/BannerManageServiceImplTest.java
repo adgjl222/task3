@@ -39,7 +39,7 @@ public class BannerManageServiceImplTest {
     @Test
     public void testSelectByCompileAndState(){
         BannerManage bannerManage = new BannerManage();
-        bannerManage.setCompileBy("");
+        bannerManage.setCompileBy("西");
         bannerManage.setBannerState(null);
         log.info("Compile by" + bannerManage.getCompileBy()+ " and State is " +bannerManage.getBannerState());
         List<BannerManage> list = bannerManageService.selectByCompileAndState(bannerManage);
